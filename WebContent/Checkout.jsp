@@ -19,7 +19,7 @@
       <td align="right">QUANTITY</td>
       </tr>
 <%
-    Vector shoplist = (Vector)session.getValue("ebookshop.cart");
+    Vector shoplist = (Vector)session.getValue("carrito");
     for (int i = 0; i < shoplist.size(); i++) {
       Book anOrder = (Book)shoplist.elementAt(i);
  %>

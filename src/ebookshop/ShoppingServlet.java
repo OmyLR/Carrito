@@ -27,8 +27,7 @@ public class ShoppingServlet extends HttpServlet {
 	  public void doPost (HttpServletRequest req, HttpServletResponse res)
 	      throws ServletException, IOException {
 	    HttpSession session = req.getSession(true);
-	    Vector<Book> shoplist =
-	      (Vector<Book>)session.getAttribute("ebookshop.cart");
+	    Vector<Book> shoplist = (Vector<Book>)session.getAttribute("ebookshop.cart");
 	    String do_this = req.getParameter("do_this");
 	    if (do_this == null) {
 	      Vector<String> blist = new Vector<String>();
@@ -58,37 +57,34 @@ public class ShoppingServlet extends HttpServlet {
 	        ServletContext    sc = getServletContext();
 	        RequestDispatcher rd = sc.getRequestDispatcher("/Checkout.jsp");
 	        rd.forward(req, res);
-	        } // if (..checkout..
-	      else {
-	        if (do_this.equals("remove")) {
-	          String pos = req.getParameter("position");
-	          shoplist.removeElementAt((new Integer(pos)).intValue());
-	          }
-	        else if (do_this.equals("add")) {
-	          boolean found = false;
-	          Book aBook = getBook(req);
-	          if (shoplist == null) {  // the shopping cart is empty
-	            shoplist = new Vector<Book>();
-	            shoplist.addElement(aBook);
-	            }
-	          else {  // update the #copies if the book is already there
-	            for (int i = 0; i < shoplist.size() && !found; i++) {
-	              Book b = (Book)shoplist.elementAt(i);
-	              if (b.getTitle().equals(aBook.getTitle())) {
-	                b.setQuantity(b.getQuantity() + aBook.getQuantity());
-	                shoplist.setElementAt(b, i);
-	                found = true;
-	                }
-	              } // for (i..
-	            if (!found) {  // if it is a new book => Add it to the shoplist
-	              shoplist.addElement(aBook);
-	              }
-	            } // if (shoplist == null) .. else ..
-	          } // if (..add..
-	        session.setAttribute("ebookshop.cart", shoplist);
-	        ServletContext sc = getServletContext();
-	        RequestDispatcher rd = sc.getRequestDispatcher("/");
-	        rd.forward(req, res);
+	        } else {
+		        if (do_this.equals("remove")) {
+		          String pos = req.getParameter("position");
+		          shoplist.removeElementAt((new Integer(pos)).intValue());
+		         } else if (do_this.equals("add")) {
+		        	  boolean found = false;
+		        	  Book aBook = getBook(req);
+		        	  if (shoplist == null) {  // the shopping cart is empty
+		        		  shoplist = new Vector<Book>();
+		        		  shoplist.addElement(aBook);
+		        	  } else {  // update the #copies if the book is already there
+			            for (int i = 0; i < shoplist.size() && !found; i++) {
+			              Book b = (Book)shoplist.elementAt(i);
+			              if (b.getTitle().equals(aBook.getTitle())) {
+			                b.setQuantity(b.getQuantity() + aBook.getQuantity());
+			                shoplist.setElementAt(b, i);
+			                found = true;
+			                }
+			              } // for (i..
+			            if (!found) {  // if it is a new book => Add it to the shoplist
+			              shoplist.addElement(aBook);
+			            }
+		            } // if (shoplist == null) .. else ..
+		         } // if (..add..
+		        session.setAttribute("ebookshop.cart", shoplist);
+		        ServletContext sc = getServletContext();
+		        RequestDispatcher rd = sc.getRequestDispatcher("/");
+		        rd.forward(req, res);
 	        } // if (..checkout..else
 	      } // if (do_this..
 	    } // doPost
@@ -100,5 +96,5 @@ public class ShoppingServlet extends HttpServlet {
 	    String price = myBook.substring(n+1);
 	    String qty = req.getParameter("qty");
 	    return new Book(title, Float.parseFloat(price), Integer.parseInt(qty));
-	    } // getBook
 	  }
+}

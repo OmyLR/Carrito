@@ -9,9 +9,9 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-    <servlet>
+  <servlet>
     <servlet-name>EBookshopServlet</servlet-name>
-    <servlet-class>ebookshop.ShoppingServlet</servlet-class>
+    <servlet-class>ebookshop.Controlador</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>EBookshopServlet</servlet-name>
