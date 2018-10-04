@@ -44,9 +44,7 @@ public class Controlador extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		shoplist = (Vector<Book>)session.getAttribute("carrito");
 		String do_this = request.getParameter("do_this");
-		if (do_this == null) {
-		      cargaLibro(request, response, session);
-		} else {
+		if (do_this != null) {
 		    switch(do_this) {
 		    	case "checkout":
 		    		checkOut(request, response);
@@ -134,5 +132,19 @@ public class Controlador extends HttpServlet {
 	    String qty = req.getParameter("qty");
 	    return new Book(title, Float.parseFloat(price), Integer.parseInt(qty));
 	} // getBook
+
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		Vector<String> blist = new Vector<String>();
+	      blist.addElement("Beginning JSP, JSF and Tomcat. Zambon/Sekler $39.99");
+	      blist.addElement("Beginning JBoss Seam. Nusairat $39.99");
+	      blist.addElement("Founders at Work. Livingston $25.99");
+	      blist.addElement("Business Software. Sink $24.99");
+	      blist.addElement("Foundations of Security. Daswani/Kern/Kesavan $39.99");
+	      getServletContext().setAttribute("ebookshop.list", blist);
+	}
 	  
+	
 }
