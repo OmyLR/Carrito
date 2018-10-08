@@ -11,9 +11,12 @@
   </head>
 <body>
   <H1>Your online Bookshop</H1>
+  <h5>Your ID: <%= session.getId() %></h5>
   <hr/><p/>
 <%  // Scriptlet 1: check whether the book list is ready
-  Vector booklist = (Vector)session.getValue("ebookshop.list");
+	
+  Vector<String> booklist = (Vector)application.getAttribute("ebookshop.list");
+//request.getServletContext().getAttribute("ebookshop.list");
   if (booklist == null) {
     response.sendRedirect("/Carrito/eshop");
     }

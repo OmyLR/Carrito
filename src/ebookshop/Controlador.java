@@ -56,7 +56,11 @@ public class Controlador extends HttpServlet {
 		    		addBook(request, response);
 		    		break;
 		    }
-		}
+		}	else {
+			ServletContext    sc = getServletContext();
+		      RequestDispatcher rd = sc.getRequestDispatcher("/");
+		      rd.forward(request, response);
+		}	
 	   
 	}
 	
@@ -137,13 +141,21 @@ public class Controlador extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
+		System.out.println("Iniciando");
+		cargarLibroContexto();
+	}
+	
+	
+	public void cargarLibroContexto(){
+		System.out.println("Cargando Libros!");
 		Vector<String> blist = new Vector<String>();
-	      blist.addElement("Beginning JSP, JSF and Tomcat. Zambon/Sekler $39.99");
-	      blist.addElement("Beginning JBoss Seam. Nusairat $39.99");
-	      blist.addElement("Founders at Work. Livingston $25.99");
-	      blist.addElement("Business Software. Sink $24.99");
-	      blist.addElement("Foundations of Security. Daswani/Kern/Kesavan $39.99");
-	      getServletContext().setAttribute("ebookshop.list", blist);
+	    blist.addElement("Beginning JSP, JSF and Tomcat. Zambon/Sekler $39.99");
+	    blist.addElement("Beginning JBoss Seam. Nusairat $39.99");
+	    blist.addElement("Founders at Work. Livingston $25.99");
+	    blist.addElement("Business Software. Sink $24.99");
+	    blist.addElement("Foundations of Security. Daswani/Kern/Kesavan $39.99");
+	    getServletContext().setAttribute("ebookshop.list", blist);
+	   /**/
 	}
 	  
 	
