@@ -44,24 +44,24 @@ public class Controlador extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		shoplist = (Vector<Book>)session.getAttribute("carrito");
 		String do_this = request.getParameter("do_this");
+		String ruta = "/";
+		ServletContext    sc = getServletContext();
 		if (do_this != null) {
 		    switch(do_this) {
 		    	case "checkout":
-		    		checkOut(request, response);
+		    		checkOut(request);
+		    		ruta = "/Checkout.jsp";
 		    		break;
 		    	case "remove":
-		    		removeBook(request, response);
+		    		removeBook(request);
 		    		break;
 		    	case "add":
-		    		addBook(request, response);
+		    		addBook(request);
 		    		break;
 		    }
-		}	else {
-			ServletContext    sc = getServletContext();
-		      RequestDispatcher rd = sc.getRequestDispatcher("/");
-		      rd.forward(request, response);
-		}	
-	   
+		}
+		RequestDispatcher rd = sc.getRequestDispatcher(ruta);
+	      rd.forward(request, response);
 	}
 	
 	private void cargaLibro(HttpServletRequest req, HttpServletResponse res, HttpSession session) throws ServletException, IOException {
@@ -72,12 +72,9 @@ public class Controlador extends HttpServlet {
 	      blist.addElement("Business Software. Sink $24.99");
 	      blist.addElement("Foundations of Security. Daswani/Kern/Kesavan $39.99");
 	      session.setAttribute("ebookshop.list", blist);
-	      ServletContext    sc = getServletContext();
-	      RequestDispatcher rd = sc.getRequestDispatcher("/");
-	      rd.forward(req, res);
 	}
 	
-	private void checkOut(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	private void checkOut(HttpServletRequest req) throws ServletException, IOException {
 		float dollars = 0;
         int   books = 0;
         for (int i = 0; i < shoplist.size(); i++) {
@@ -89,20 +86,16 @@ public class Controlador extends HttpServlet {
           }
         req.setAttribute("dollars", new Float(dollars).toString());
         req.setAttribute("books", new Integer(books).toString());
-        ServletContext    sc = getServletContext();
-        RequestDispatcher rd = sc.getRequestDispatcher("/Checkout.jsp");
-        rd.forward(req, res);
+        
 	}
 	
-	private void removeBook( HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	private void removeBook( HttpServletRequest req) throws ServletException, IOException {
 		String pos = req.getParameter("position");
         shoplist.removeElementAt((new Integer(pos)).intValue());
-        ServletContext sc = getServletContext();
-        RequestDispatcher rd = sc.getRequestDispatcher("/");
-        rd.forward(req, res);
+        
 	}
 	
-	private void addBook(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	private void addBook(HttpServletRequest req) throws ServletException, IOException {
 		 boolean found = false;
          Book aBook = getBook(req);
          if (shoplist == null) {  // the shopping cart is empty
@@ -123,9 +116,6 @@ public class Controlador extends HttpServlet {
              shoplist.addElement(aBook);
            }
          } 
-         ServletContext sc = getServletContext();
-	     RequestDispatcher rd = sc.getRequestDispatcher("/");
-	     rd.forward(req, res);
 	}
 	
 	private Book getBook(HttpServletRequest req) {
